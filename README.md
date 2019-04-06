@@ -4,8 +4,15 @@ Having google home page with your pictures.
 
 Base on the Google photos library project...
 
+You need a client_secret.json file in the root with oAuth2 credentials.
+
+https://developers.google.com/photos/library/guides/get-started
+
+For try, go to https://google.gameandme.fr
+
+For more informations, read this :
 This directory contains some samples to help you get started with the PHP
-client library for the [Google Photos Library API](https://developers.google.com/photos).
+client library for the [Google Photos Library API] https://developers.google.com/photos 
 
 ## Get started with the samples
 

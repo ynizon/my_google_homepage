@@ -48,53 +48,55 @@ if (isset($_GET['clear'])) {
 	exit();
 }
 
-/**
-* Constructs a SearchMediaItems query from the form submission. If no query is set, then an
-* unfiltered search is performed.
-*/
-$filtersBuilder = new FiltersBuilder();
 
-$filtersBuilder ->setMediaTypeFromString("PHOTO");
-
-$filtersBuilder->setIncludeArchivedMedia(isset($_GET['archived-media']));
-
-if (isset($_GET['included-categories'])) {
-    foreach ($_GET['included-categories'] as $includedCategory) {
-        // These category strings are from the array PhotosLibraryClient::contentCategories().
-        $filtersBuilder->addIncludedCategoryFromString($includedCategory);
-    }
-}
-
-if (isset($_GET['excluded-categories'])) {
-    foreach ($_GET['excluded-categories'] as $excludedCategory) {
-        // These category strings are from the array PhotosLibraryClient::contentCategories().
-        $filtersBuilder->addExcludedCategoryFromString($excludedCategory);
-    }
-}
-
-if (isset($_GET['start-date']) && $_GET['start-date'] != '') {
-    $startDate = new DateTime($_GET['start-date']);
-
-    if (isset($_GET['end-date']) && $_GET['end-date'] != '') {
-        $endDate = new DateTime($_GET['end-date']);
-        $filtersBuilder->addDateRangeFromDateTime($startDate, $endDate);
-    } else {
-        $filtersBuilder->addDateFromDateTime($startDate);
-    }
-}
-
-/**
- * Sends the request, as constructed above, to the Photos Library API, and renders the response.
- */
- 
-checkCredentials($templates->render('views::connect'));
-//echo var_dump(($_COOKIE['credentials']));exit();
-//$photosLibraryClient = new PhotosLibraryClient(['credentials' => json_decode($_COOKIE['credentials'],true)]);
-$credentials = $_SESSION['credentials'];
-
-//echo var_dump($_COOKIE['credentials']);exit();
-///$credentials = unserialize($_COOKIE['credentials']);
 try{
+	/**
+	* Constructs a SearchMediaItems query from the form submission. If no query is set, then an
+	* unfiltered search is performed.
+	*/
+	$filtersBuilder = new FiltersBuilder();
+
+	$filtersBuilder ->setMediaTypeFromString("PHOTO");
+
+	$filtersBuilder->setIncludeArchivedMedia(isset($_GET['archived-media']));
+
+	if (isset($_GET['included-categories'])) {
+		foreach ($_GET['included-categories'] as $includedCategory) {
+			// These category strings are from the array PhotosLibraryClient::contentCategories().
+			$filtersBuilder->addIncludedCategoryFromString($includedCategory);
+		}
+	}
+
+	if (isset($_GET['excluded-categories'])) {
+		foreach ($_GET['excluded-categories'] as $excludedCategory) {
+			// These category strings are from the array PhotosLibraryClient::contentCategories().
+			$filtersBuilder->addExcludedCategoryFromString($excludedCategory);
+		}
+	}
+
+	if (isset($_GET['start-date']) && $_GET['start-date'] != '') {
+		$startDate = new DateTime($_GET['start-date']);
+
+		if (isset($_GET['end-date']) && $_GET['end-date'] != '') {
+			$endDate = new DateTime($_GET['end-date']);
+			$filtersBuilder->addDateRangeFromDateTime($startDate, $endDate);
+		} else {
+			$filtersBuilder->addDateFromDateTime($startDate);
+		}
+	}
+
+	/**
+	 * Sends the request, as constructed above, to the Photos Library API, and renders the response.
+	 */
+	 
+	checkCredentials($templates->render('views::connect'));
+	//echo var_dump(($_COOKIE['credentials']));exit();
+	//$photosLibraryClient = new PhotosLibraryClient(['credentials' => json_decode($_COOKIE['credentials'],true)]);
+	$credentials = $_SESSION['credentials'];
+
+	//echo var_dump($_COOKIE['credentials']);exit();
+	///$credentials = unserialize($_COOKIE['credentials']);
+
 	$photosLibraryClient = new PhotosLibraryClient(['credentials' => $credentials]);
 }catch(Exception $e){
 	header("location: index.php?clear");
@@ -182,9 +184,21 @@ try {
 		setcookie('refresh_date', date("Y-m"), time() + 365*24*3600, null, null, false, true);
 	}
 	
-	shuffle($tabInfo["items"]);
-	$picture_id = array_shift($tabInfo["items"]);	
-	$oPicture = $photosLibraryClient->GetMediaItem($picture_id);
+	//On cherche une iamge 3 fois au cas ou elle a été supprimée
+	$oPicture = null;
+	$iStep = 0;
+	while($iStep <3){
+		try{
+			if ($oPicture == null){
+				shuffle($tabInfo["items"]);
+				$picture_id = array_shift($tabInfo["items"]);
+				$oPicture = $photosLibraryClient->GetMediaItem($picture_id);
+			}
+		}catch(Exception $excep){
+			//Nothing
+		}
+		$iStep++;
+	}
 
 	$timestamp = time();//$oPicture->getMediaMetadata()->getCreationTime()->getSeconds();	
 	$picture = array("timestamp" => $timestamp,
