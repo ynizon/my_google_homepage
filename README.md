@@ -1,33 +1,32 @@
-# Google Homepage with your Photos Library 
+## My Homepage
 
-Having google home page with your pictures.
+My homepage is a web application to give you a default homepage on your browser with the list of your events.
+and a new pictures of your family each time you refresh.
 
-Base on the Google photos library project...
+## Installation
+- rename .env.example to .env 
+- composer install
+- create a database/database.sqlite empty file
+- php artisan migrate
 
-You need a client_secret.json file in the root with oAuth2 credentials.
+On your google cloud platform, create a new application and enable API for Google Photos and Calendar.
+Go your authentification, then store credentials here:
+- storage/app/google-calendar/client_secret.json (for pictures)
+- storage/app/google-calendar/service-account-credentials.json (for events)
 
-https://developers.google.com/photos/library/guides/get-started
+- Add it on your browser with this extension:
+  Fast New Tab Redirect for chrome - https://chrome.google.com/webstore/detail/fast-new-tab-redirect/ohnfdmfkceojnmepofncbddpdicdjcoi
 
-For try, go to https://google.gameandme.fr
+## Custom
 
-For more informations, read this :
-This directory contains some samples to help you get started with the PHP
-client library for the [Google Photos Library API] https://developers.google.com/photos 
+You can change shortcuts in the header in resources/views/favorites.php
 
-## Get started with the samples
+## Informations
 
-. Download the source code for the sample by either cloning this repository and branch 
-(for example `git clone https://github.com/google/php-photoslibrary.git -b samples`) 
-or by [downloading a compressed tarball](../../blob/master/README.md#downloading-a-compressed-tarball).
-. Set up your Google Developers project, enable the Google Photos Library API,
-   and create credentials for a **web application**. 
-    
-   See [Setting up your OAuth2 credentials](../../blob/master/README.md#Setting-up-your-OAuth2-credentials).
-. Download the OAuth configuration as a JSON file and copy it to the root of the directory with the name `client_secret.json`. 
-. Install all dependencies through composer by running `composer install`.
-. Check that your webserver fulfills [all requirements](../README.md#requirements-and-preparation),
-   in particular the version of PHP and all required modules.
-. Configure your web server to serve the `src/` directory.
-. In the file `photoslibrary-sample.ini`, change the URLs where the samples are accessible. The URLs
-   listed here must be included in the OAuth configuration in the developer console as 
-   *Authorised redirect URIs*. 
+Token for picture media library give an access for 1 hour (service account not work).
+Pictures are duplicate into storage/app/pictures directory when you open the webpage  
+(wait a little to synchronize pictures the first time).
+Events API can have a service account, so you need to add the client_email of your service account file on your calendar.
+
+## Screenshot
+<img src="/public/screenshot.png">
