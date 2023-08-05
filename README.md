@@ -1,6 +1,6 @@
 ## My Homepage
 
-My homepage is a web application to give you a default homepage on your browser with the list of your events.
+My homepage is a web application to give you a default homepage on your browser with the list of your events,
 and a new pictures of your family each time you refresh.
 
 ## Installation
@@ -27,6 +27,7 @@ Token for picture media library give an access for 1 hour (service account not w
 Pictures are duplicate into storage/app/pictures directory when you open the webpage  
 (wait a little to synchronize pictures the first time).
 Events API can have a service account, so you need to add the client_email of your service account file on your calendar.
+Gmail readonly is require to get a counter of unread email.
 
 ## Screenshot
 <img src="/public/screenshot.png">

@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\User;
+use Google\Service\Gmail;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -81,6 +82,20 @@ class Helper
             $json = ["pictures_cache"=> [], "pictures" => $pictures, "events" => $events, "albums" => $albums, "date"=>$now];
             file_put_contents($cacheFilename, json_encode($json));
         }
+    }
+
+    public function countUnreadEmails($userId) {
+        $client = $this->getUserClient($userId);
+        $service = new Gmail($client);
+
+        try{
+            $results = $service->users_messages->listUsersMessages('me', ['labelIds'=>'INBOX','q'=>'is:unread']);
+            $nb =  count($results->getMessages());
+        }catch(\Exception $e) {
+            // TODO(developer) - handle error appropriately
+            $nb = $e->getMessage();
+        }
+        return $nb;
     }
 
     public function getAlbums() {
@@ -344,7 +359,8 @@ class Helper
 
             $scopes = ['https://www.googleapis.com/auth/photoslibrary.readonly',
                 'https://www.googleapis.com/auth/calendar.readonly',
-                'https://www.googleapis.com/auth/userinfo.email'];
+                'https://www.googleapis.com/auth/userinfo.email',
+            ];
 
             $token = json_decode($user->google_access_token_json, true);
             $refresh_token = isset($token["refresh_token"]) ? $token["refresh_token"] : $token["access_token"];
@@ -396,6 +412,7 @@ class Helper
      * Gets a google client
      *
      * @return \Google_Client
+     * @throws \Google\Exception
      */
     public function getClient():\Google_Client
     {
@@ -419,6 +436,7 @@ class Helper
                 \Google\Service\Oauth2::OPENID,
                 \Google\Service\Drive::DRIVE_METADATA_READONLY,
                 \Google\Service\Oauth2::OPENID,
+                \Google\Service\Gmail::GMAIL_READONLY,
                 'https://www.googleapis.com/auth/calendar.readonly',
                 'https://www.googleapis.com/auth/photoslibrary.readonly',
             ]

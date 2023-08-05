@@ -39,6 +39,7 @@ Route::get('/privacy.php', 'Controller@privacy');
 Route::get('/goGoogle', 'Controller@goGoogle');
 Route::post('/changeAlbum', 'Controller@changeAlbum');
 Route::get('/refresh', 'Controller@refresh');
+Route::get('/refreshEmails', 'Controller@refreshEmails');
 Route::post('/removeAll', 'Controller@removeAll');
 Route::get('/removeAll', 'Controller@removeAll');
 Route::get('/tos.php', 'Controller@tos');

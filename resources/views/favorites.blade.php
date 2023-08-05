@@ -1,5 +1,7 @@
 <li>
-    <a class="btntop" href="https://www.gmail.com" title="Gmail"><i class="fa-regular fa-envelope-open"></i></a>
+    <a class="btntop gmail" href="https://www.gmail.com" title="Gmail"><i class="fa-regular fa-envelope-open"></i>
+        <span class="button__badge" id="unreadEmails"></span>
+    </a>
 </li>
 <li>
     <a class="btntop" href="https://www.youtube.com" title="Youtube" style="color:#ff0000"><i class="fa-brands fa-youtube"></i></a>

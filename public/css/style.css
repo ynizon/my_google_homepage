@@ -196,3 +196,20 @@ footer{
     height:68px;
     text-align: center;
 }
+
+a.gmail{
+    position: relative;
+}
+.button__badge {
+    display:none;
+    background-color: #fa3e3e;
+    border-radius: 2px;
+    color: white;
+
+    padding: 1px 3px;
+    font-size: 10px;
+
+    position: absolute; /* Position the badge within the relatively positioned button */
+    top: 0;
+    right: 0;
+}

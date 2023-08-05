@@ -60,7 +60,18 @@ class Controller extends BaseController
             $error = $info['error'];
         }
 
-        return view('refresh', compact('nbFiles', 'listPhotos', 'error'));
+        return view('refresh', compact('nbFiles',  'listPhotos', 'error'));
+    }
+
+    public function refreshEmails() {
+        $user = $this->helper->getTheUser();
+        $nbEmails = $this->helper->countUnreadEmails($user->id);
+        $emailsError = '';
+        if (!is_numeric($nbEmails)) {
+            $emailsError = $nbEmails;
+            $nbEmails = '';
+        }
+        return view('refreshemails', compact('emailsError','nbEmails'));
     }
 
     public function changeAlbum(Request $request) {
@@ -141,8 +152,11 @@ class Controller extends BaseController
         $user = $this->helper->getTheUser();
         $client = $this->helper->getClient();
         $authCode = $request->input("code");
-        $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-        $this->helper->updateUserToken($user->id, $accessToken);
+        if (!empty($authCode)) {
+            $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+            $this->helper->updateUserToken($user->id, $accessToken);
+        }
+
         return redirect("/");
     }
 
@@ -160,6 +174,7 @@ class Controller extends BaseController
             \Google\Service\Calendar::CALENDAR_READONLY,
             \Google\Service\Oauth2::OPENID,
             'https://www.googleapis.com/auth/photoslibrary.readonly',
+            \Google\Service\Gmail::GMAIL_READONLY,
         ];
 
         $authUrl = $client->createAuthUrl($scopes, ['login_hint'=>$user->email]);

@@ -56,6 +56,13 @@
             <script>
                 document.getElementById("q").focus();
                 var refreshing = false;
+
+                fetch('/refreshEmails', {})
+                    .then(response => response.text())
+                    .then(body => {
+                        eval(body);
+                });
+
                 window.setInterval(function() {
                     document.getElementById('refresh_pictures').innerText = '';
                     if (document.getElementById('refresh_error').innerText === '' && !refreshing) {
@@ -66,7 +73,7 @@
                             .then(body => {
                                 refreshing = false;
                                 eval(body);
-                            });
+                        });
                     }
                 }, 5000);
 
