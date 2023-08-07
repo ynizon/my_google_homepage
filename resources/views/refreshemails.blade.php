@@ -3,5 +3,7 @@
 @section('content')
     document.getElementById('unreadEmails').innerText = "{{$nbEmails}}";
     document.getElementById('unreadEmails').title = "{{$emailsError}}";
-    document.getElementById('unreadEmails').style.display = 'block';
+    @if(!empty($nbEmails))
+        document.getElementById('unreadEmails').style.display = 'block';
+    @endif
 @endsection
