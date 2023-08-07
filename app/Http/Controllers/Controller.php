@@ -71,6 +71,9 @@ class Controller extends BaseController
             $emailsError = $nbEmails;
             $nbEmails = '';
         }
+        if ($nbEmails == 0) {
+            $nbEmails = '';
+        }
         return view('refreshemails', compact('emailsError','nbEmails'));
     }
 
