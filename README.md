@@ -1,7 +1,8 @@
 ## My Homepage
 
 My homepage is a web application to give you a default homepage on your browser with the list of your events,
-and a new pictures of your family each time you refresh.
+and a new pictures of your family each time you refresh. You also have an alarm clock. 
+Alarm clock say you weather, tasks on your agenda and can play radio.
 
 ## Installation
 - rename .env.example to .env 

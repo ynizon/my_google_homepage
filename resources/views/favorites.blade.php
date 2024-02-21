@@ -7,7 +7,7 @@
     <a class="btntop" href="https://www.youtube.com" title="Youtube" style="color:#ff0000"><i class="fa-brands fa-youtube"></i></a>
 </li>
 <li>
-    <a class="btntop" href="https://www.twitter.com" title="Twitter" style="color:#1d9bf0"><i class="fa-brands fa-twitter"></i></a>
+    <a class="btntop" href="https://www.x.com" title="X" style="color:#1d9bf0"><i class="fa-brands fa-twitter"></i></a>
 </li>
 <li>
     <a class="btntop" href="https://www.twitch.tv" title="Twitch" style="color:#772ce8"><i class="fa-brands fa-twitch"></i></a>
@@ -26,4 +26,7 @@
 </li>
 <li>
     <a class="btntop" href="https://smilelearning.udemy.com" title="uDemy"><i class="fa-solid fa-school"></i></a>
+</li>
+<li>
+    <a class="btntop" href="/clock" title="Réveil" style="color:#1d9bf0"><i class="fa fa-clock"></i></a>
 </li>

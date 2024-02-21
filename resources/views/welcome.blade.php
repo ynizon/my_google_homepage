@@ -12,7 +12,7 @@
             <div>
                 <div style="@if (count($events)>0) float:left;width:50%;text-align:center; @endif">
                     @if (!empty($photo))
-                        <a href='https://photos.google.com/search/{{$photo['filename']}}'><img src='/picture?filename={{ $photo['filename'] }}'></a>
+                        <a href='https://photos.google.com/search/{{$photo['filename']}}'><img class='myimg' src='/picture?filename={{ $photo['filename'] }}'></a>
                     @endif
                 </div>
                 <div style="@if (count($events)>0) float:left;width:50%; @endif">
